@@ -3,29 +3,17 @@ from __future__ import division
 from __future__ import print_function
 from builtins import str
 
-import json
-
-from pygments import highlight
-from pygments.lexers import JsonLexer
-from pygments.formatters import TerminalFormatter
 
 from nittygriddy import utils
 
-
-def _pprint_json(dics):
-    json_str = json.dumps(dics, sort_keys=True, indent=4)
-    print(highlight(str(json_str, 'UTF-8'),
-                    JsonLexer(), TerminalFormatter()))
-
-
 def datasets(args):
     if args.list:
-        _pprint_json(utils.get_datasets())
+        utils.pprint_json(utils.get_datasets())
     elif args.show:
         ds = utils.get_datasets().get(args.show, None)
         if not ds:
             raise ValueError("Dataset not found.")
-        _pprint_json(ds)
+        utils.pprint_json(ds)
     elif args.search:
         search_datasets_for_string(args.search)
     elif args.download:
@@ -59,10 +47,10 @@ def search_datasets_for_string(s):
     datasets = utils.get_datasets()
     matches = []
     for dset_name, dset in datasets.items():
-        for key, value in flatten(dset):
+        for value in flatten(dset):
             if s in value:
                 matches.append({dset_name: dset})
-    _pprint_json(matches)
+    utils.pprint_json(matches)
 
 
 def create_subparser(subparsers):

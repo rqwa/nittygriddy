@@ -11,6 +11,12 @@ import re
 import shutil
 import subprocess
 import sys
+import json
+
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import TerminalFormatter
+
 try:
     from urllib2 import urlopen
 except ImportError:
@@ -61,12 +67,12 @@ def get_datasets():
     """
     default_ds_name = os.path.join(_internal_files_dir(), "datasets.yml")
     user_ds_name = os.path.expanduser("~/nitty_datasets.yml")
-    with open(default_ds_name, "read") as f:
+    with open(default_ds_name, "r") as f:
         default_ds = yaml.safe_load(f)
         validate_dataset(default_ds)
     # open the user's definitions; create the file if it does not exist
     try:
-        with open(user_ds_name, "read") as f:
+        with open(user_ds_name, "r") as f:
             user_ds = yaml.safe_load(f)
             if user_ds:
                 validate_dataset(user_ds)
@@ -270,7 +276,7 @@ def download_dataset(dataset, volume, runs=None):
                 print("Some files were present and were not redownloaded")
         except RuntimeError as e:
             # Error in download; probably with MD5 sum
-            print(e.message)
+            print(e)
             pass
 
         sys.stdout.write("\rDownloaded {:2f}% of {}GB so far"
@@ -291,7 +297,7 @@ def get_latest_aliphysics():
     """
     html = urlopen('http://alimonitor.cern.ch/packages/').read()
     tag_pattern = r'vAN-\d{8}-\d+'
-    return sorted(re.findall(tag_pattern, html)).pop()
+    return sorted(re.findall(tag_pattern, str(html))).pop()
 
 def check_aliphysics_version(version):
     """
@@ -375,7 +381,7 @@ def check_alien_token():
     except subprocess.CalledProcessError:
         raise AlienTokenError("Could not call `alien-token-info` to check token.")
     for l in output.splitlines():
-        if "Token is still valid!" in l:
+        if "Token is still valid!" in str(l):
             return True
     raise AlienTokenError("Alien token is invalid. Call `alien-token-init` before running nittygriddy.")
 
@@ -595,3 +601,23 @@ def _internal_files_dir():
     # The dir with the python files
     src_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(src_dir, 'non-python-files')
+
+def is_string(s):
+  if sys.version_info[0] >= 3:
+    return isinstance(s, str)
+  return isinstance(s, basestring)
+
+def to_unicode(s):
+  if sys.version_info[0] >= 3:
+    if isinstance(s, bytes):
+      return s.decode("utf-8")  # to get newlines as such and not as escaped \n
+    return str(s)
+  elif isinstance(s, str):
+    return unicode(s, "utf-8")  # utf-8 is a safe assumption
+  elif not isinstance(s, unicode):
+    return unicode(str(s))
+  return s
+
+def pprint_json(dics):
+    json_str = json.dumps(dics, sort_keys=True, indent=2)
+    print(highlight(to_unicode(json_str), JsonLexer(), TerminalFormatter()))

@@ -77,7 +77,7 @@ class Test_grid_features(TestCase):
 
     def test_find_user_grid_dir(self):
         grid_home = utils.find_user_grid_dir()
-        self.assertRegexpMatches(grid_home, '/alice/cern.ch/user/\w/\w+/')
+        self.assertRegexpMatches(grid_home, r'/alice/cern.ch/user/\w/\w+/')
 
     def find_latest_merge_results(self):
         # a test dir set up under alien:///alice/cern.ch/user/c/cbourjau/
@@ -157,8 +157,8 @@ class Test_cli(TestCase):
 
 class Test_ttl(TestCase):
     def test_ttl(self):
-        self.assertEqual(utils._parse_time_to_life_arg("1h"), 60 * 60)
-        self.assertEqual(utils._parse_time_to_life_arg("1.5h"), 1.5 * 60 * 60)
+        self.assertEqual(utils._parse_time_to_live_arg("1h"), 60 * 60)
+        self.assertEqual(utils._parse_time_to_live_arg("1.5h"), 1.5 * 60 * 60)
         # Backwards compatible: no unit defaults to seconds
-        self.assertEqual(utils._parse_time_to_life_arg("20"), 20)
-        self.assertEqual(utils._parse_time_to_life_arg("20s"), 20)
+        self.assertEqual(utils._parse_time_to_live_arg("20"), 20)
+        self.assertEqual(utils._parse_time_to_live_arg("20s"), 20)

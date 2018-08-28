@@ -1,12 +1,12 @@
-#! /usr/bin/python2
+#! /usr/bin/python
 import logging
 import sys
 
 try:
     from nittygriddy import parser
-except ImportError, e:
-    print "There was an import error! Was ROOT `source`ed properly?"
-    print e
+except ImportError as e:
+    print("There was an import error! Was ROOT `source`ed properly?")
+    print(e)
     quit()
 
 parser = parser.create_parser()
@@ -21,6 +21,6 @@ except Exception as e:
         logging.basicConfig(level=logging.DEBUG)
         # re-raise with the full traceback
         t, v, tb = sys.exc_info()
-        raise t, v, tb
+        raise t(v).with_traceback(tb)
     else:
         sys.exit("{0}: {1}".format(e.__class__.__name__, e))
