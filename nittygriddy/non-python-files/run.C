@@ -197,6 +197,7 @@ void run(const std::string gridMode="")
   if (GetSetting("datatype") == "esd") {
     AliVEventHandler* esdH = new AliESDInputHandler;
     mgr->SetInputEventHandler(esdH);
+    esdH->SetNeedField();
   }
   if (GetSetting("is_mc") == "true" && GetSetting("datatype") == "esd") {
     AliMCEventHandler* handler = new AliMCEventHandler;
