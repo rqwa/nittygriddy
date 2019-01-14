@@ -51,12 +51,36 @@ else
   CHANGED_FILES=($(find . -name '*.py' -a -not -name setup.py))
 fi
 
-ERRCHECK=
-for PY in "${CHANGED_FILES[@]}"; do
-  [[ -e "$PY" ]] || continue
-  ERR=
-  swallow "$PY: linting" pylint "$PY" || ERR=1
-  swallow "$PY: checking copyright notice" check_copyright "$PY" || ERR=1
-  [[ ! $ERR ]] || ERRCHECK="$ERRCHECK $PY"
-done
-[[ ! $ERRCHECK ]] || { printf "\n\nErrors found in:$ERRCHECK\n" >&2; exit 1; }
+# TODO: enable pylint and copyright check
+#ERRCHECK=
+#for PY in "${CHANGED_FILES[@]}"; do
+#  [[ -e "$PY" ]] || continue
+#  ERR=
+#  swallow "$PY: linting" pylint "$PY" || ERR=1
+#  swallow "$PY: checking copyright notice" check_copyright "$PY" || ERR=1
+#  [[ ! $ERR ]] || ERRCHECK="$ERRCHECK $PY"
+#done
+#[[ ! $ERRCHECK ]] || { printf "\n\nErrors found in:$ERRCHECK\n" >&2; exit 1; }
+
+
+### Test ROOT ###
+source $HOME/rootcern/root/bin/thisroot.sh
+cat > /tmp/macro.C <<EOF
+void macro() {
+  TH1F a("a","",100,-5,5);
+  a.FillRandom("gaus",10000);
+  a.Draw();
+}
+EOF
+
+set -x
+root -l -b -q /tmp/macro.C
+
+### Python and root? ###
+python -V
+python -c 'import ROOT'
+
+## Attempt to nosetests ##
+export PYTHONUSERBASE=$HOME/pythonlocal
+export PATH=$PYTHONUSERBASE/bin:$PATH
+#nosetests

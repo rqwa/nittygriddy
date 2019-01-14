@@ -1,16 +1,18 @@
 dist: trusty
-language: python
-python:
-  - "3.7-dev"
 install: |
   set -e
   set -o pipefail
+  ci/run-tests-install.sh
   #pip install -e .
-  pip list
+  #pip list
+  #ls -l
 script: |
   set -e
   set -o pipefail
-  #ci/run-tests.sh
+  ci/run-tests.sh
+cache:
+  directories:
+  - $HOME/rootcern
 branches:
   only:
     - master
