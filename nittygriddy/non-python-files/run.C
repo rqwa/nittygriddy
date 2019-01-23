@@ -38,13 +38,10 @@ TChain* makeChain() {
   TChain * chain = 0;
   if (GetSetting("datatype") == "aod") {
     chain = new TChain ("aodTree");
-  }
-  if (GetSetting("datatype") == "esd") {
-    if (GetSetting("is_mc") == "true") {
-      chain = new TChain ("TE");  // Tree name in galice.root files
-    } else {
-      chain = new TChain ("esdTree");  // Tree name in AliESDs.root
-    }
+  } else if (GetSetting("datatype") == "kine") {
+    chain = new TChain ("TE");  // Tree name in galice.root files
+  } else if (GetSetting("datatype") == "esd") {
+    chain = new TChain ("esdTree");  // Tree name in AliESDs.root
   }
   TString incollection = "./input_files.dat";
   ifstream file_collect(incollection.Data());
@@ -197,14 +194,14 @@ void run(const std::string gridMode="")
   if (GetSetting("datatype") == "esd") {
     AliVEventHandler* esdH = new AliESDInputHandler;
     mgr->SetInputEventHandler(esdH);
+    esdH->SetNeedField();
   }
-  if (GetSetting("is_mc") == "true" && GetSetting("datatype") == "esd") {
+  if (GetSetting("is_mc") == "true" && (GetSetting("datatype") == "esd" || GetSetting("datatype") == "kine")) {
     AliMCEventHandler* handler = new AliMCEventHandler;
     if (GetSetting("read_trackref") == "true") handler->SetReadTR(kTRUE);
     else handler->SetReadTR(kFALSE);
     mgr->SetMCtruthEventHandler(handler);
   }
-
   if (runmode == kGRID) {
     AliAnalysisGrid *alienHandler = CreateAlienHandler(gridMode);
     if (!alienHandler) return;

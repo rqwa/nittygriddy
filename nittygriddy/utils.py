@@ -296,7 +296,8 @@ def get_latest_aliphysics():
         tag as its usable in run.C; eg., 'vAN-20160606-1'
     """
     html = urlopen('http://alimonitor.cern.ch/packages/').read()
-    tag_pattern = r'vAN-\d{8}-\d+'
+    [major,minor,patch]=re.split('\.|/',ROOT.gROOT.GetVersion())
+    tag_pattern = r'vAN-\d{8}_ROOT6-\d+' if major > 5 and minor > 10 else r'vAN-\d{8}-\d+'
     return sorted(re.findall(tag_pattern, str(html))).pop()
 
 def check_aliphysics_version(version):

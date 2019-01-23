@@ -120,7 +120,7 @@ This file contains information about custom datasets. If the standard ones are u
   ...
     
 Note that `Yaml`, just like Python, is indention based. But don't worry, if the syntax is faulty, nittygriddy will complain. This includes missing fields in each entry. Datasets which are defined in `nitty_datasets.yml` will be merged with the default ones which come with nittygriddy.
-
+Among the supported datatype there are 'aod', 'esd' and 'kine' (kinematics only) productions.
 
 Using Nittygriddy
 =================
