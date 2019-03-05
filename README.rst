@@ -246,7 +246,7 @@ Contributing
 ============
 Contributions of any kind (issues, pull requests, general comments...) are always welcome! If you would like to hack on nittygriddy (for example to add new datasets to the default ones) you should check out nitty griddy as an editable python package: ::
 
-  $ git clone https://github.com/cbourjau/nittygriddy.git
+  $ git clone https://github.com/alice-contrib/nittygriddy.git
   $ cd nittygriddy
   $ pip install -e .
 
