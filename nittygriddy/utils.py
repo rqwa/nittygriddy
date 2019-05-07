@@ -137,9 +137,9 @@ def download_file(alien_src, local_dest):
     # fix the dest to include the file name
     if not os.path.basename(local_dest):
         local_dest = os.path.join(local_dest, os.path.basename(alien_src))
+    if (os.path.isfile(local_dest) ):
+        raise OSError("Files exist; not redownloading")
     with root_open("alien://" + alien_src) as f:
-        if (os.path.isfile(local_dest) ):
-            raise OSError("Files exist; not redownloading")
         if not f.Cp(local_dest):
             try:
                 os.remove(local_dest)
