@@ -257,6 +257,7 @@ Contributors
 
 I am very happy that others also seem to find nittygriddy useful! Some of these great people even send in some Pull Requests to fix some bugs or to add new features. Big thanks to:
 
+  - `Christian Bourjau (original author) <https://github.com/cbourjau>`_
   - `Maximiliano Puccio <https://github.com/mpuccio>`_
   - `Yasser Corrales Morales <https://github.com/ycorrales>`_
   - `Luca Barioglio <https://github.com/lbariogl>`_
