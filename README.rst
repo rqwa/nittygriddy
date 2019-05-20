@@ -242,6 +242,7 @@ This ``run.C`` can be run on independently and should be easy to read.
 This has the advantage that you can always just stop using ``nittygriddy`` and drop back to modifying the macros yourself - no vendor lockin!
 However, if you would like to continue using ``nittygriddy``, you should not edit those macros directly since they might get overwritten and it defeats the purpose of this program in the first place.
 
+
 Contributing
 ============
 Contributions of any kind (issues, pull requests, general comments...) are always welcome! If you would like to hack on nittygriddy (for example to add new datasets to the default ones) you should check out nitty griddy as an editable python package: ::
@@ -255,7 +256,7 @@ This installs nittygriddy in ``editable`` mode, meaning that any changes to the 
 Contributors
 ============
 
-I am very happy that others also seem to find nittygriddy useful! Some of these great people even send in some Pull Requests to fix some bugs or to add new features. Big thanks to:
+nittygriddy was originally created and developed by Christian Bourjau. In addition other users who find nittygriddy useful fix some bugs and add new features. Big thanks to all of them:
 
   - `Christian Bourjau (original author) <https://github.com/cbourjau>`_
   - `Maximiliano Puccio <https://github.com/mpuccio>`_
