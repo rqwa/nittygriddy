@@ -60,7 +60,8 @@ def grid(args):
             JobNr = line.split()[1]
             JobNr = re.sub("\D", "",JobNr)
             JobStat = line.split()[2]
-            if (JobStat[0] == "E"):
+            if (JobStat[0] == "E" or JobStat[0] == "Z"):
+                #Check the first letter of the job status for error (E) or zombie (Z)
                 resub_cmd = ("gbbox resubmit " + JobNr)
                 subprocess.call(resub_cmd, shell=True)
             else:
